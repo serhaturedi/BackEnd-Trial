@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+
+{% block css %}
+    <style>
+        #card2{
+            display: none;
+        }
+        .gradient-custom {
+            /* fallback for old browsers */
+            background: #f6d365;
+            
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+            
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+            }
+    </style>
+{% endblock css %}
+    
+
+
+
+
+
+{% block body %}
+<section class="vh-100" style="background-color: #f4f5f7;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-10 mb-4 mb-lg-0" style="height: 500px;">
+
+            <!-- CARD1 -->
+          <div class="card mb-3 h-100" id="card1" style="border-radius: .5rem;">
+            <div class="row g-0 h-100">
+              <div class="col-md-4 gradient-custom text-center text-white bg-dark"
+                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                {% if userinfo.image  %}
+                <img src="{{ userinfo.image.url }}" alt="Avatar" class="img-fluid my-5" style="width: 80px; border-radius: 50%; height:80px; object-fit:cover" />
+                
+                {% else %}
+                
+                <img src="{% static 'img/profil.png' %}"alt="Avatar" class="img-fluid my-5" style="width: 80px; border-radius: 50%; height:80px; object-fit:cover" />
+                {% endif %}
+                <h5>{{  userinfo.user.get_full_name }}</h5>
+                <h6>Username: {{  userinfo.user.username }}</h6>
+                <p>Job: {{ userinfo.job }}</p>
+                <i class="far fa-edit mb-5" onclick="changeProfil()"></i>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h6>Information</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Email</h6>
+                      <p class="text-muted">{{ userinfo.user.email }}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Password</h6>
+                      <p class="text-muted">*****{{ userinfo.password|slice:"-2:" }}</p>
+                    </div>
+                  </div>
+                  <h6>Projects</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Adress</h6>
+                      <p class="text-muted">{{ userinfo.address }}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Phone</h6>
+                      <p class="text-muted">{{ userinfo.tel }}</p>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-start">
+                    <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
+                    <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
+                    <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD2 -->
+          <div class="card mb-3 h-100" id="card2" style="border-radius: .5rem;">
+            <form class="row g-0 h-100" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+              <div class="col-md-4 gradient-custom text-center text-white bg-dark"
+                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                
+                {% if userinfo.image  %}
+                <img src="{{ userinfo.image.url }}" alt="Avatar" class="img-fluid my-5" style="width: 80px; border-radius: 50%; height:80px; object-fit:cover" />
+                
+                {% else %}
+                
+                <img src="{% static 'img/profil.png' %}"alt="Avatar" class="img-fluid my-5" style="width: 80px; border-radius: 50%; height:80px; object-fit:cover" />
+                {% endif %}
+                    
+                  <br>
+                  <input type="file" class="form-control d-inline-flex" style="width: 200px;" name="image">
+                <hr>
+                <div class="d-flex justify-content-between align-items-center px-3 my-3">
+                    <h6>Name: </h6>
+                    <input name="name" type="text" class="form-control d-inline-flex" style="width: 200px;" value="{{  userinfo.user.get_full_name }}">
+                </div>
+                <div class="d-flex justify-content-between align-items-center px-3 my-3">
+                    <h6>Username: </h6>
+                    <input type="text" name="username" class="form-control d-inline-flex" style="width: 200px;" value="{{  userinfo.user.username }}">
+                </div>
+                <div class="d-flex justify-content-between align-items-center px-3 my-3">
+                    <h6>Job: </h6>
+                    <input type="text" name="job" class="form-control d-inline-flex" style="width: 200px;" value="{{  userinfo.job }}">
+                </div>
+                <i class="far fa-edit mb-5" onclick="changeProfil()"></i><br>
+                <input type="submit" class="btn btn-success" value="Kaydet">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h6>Information</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Email</h6>
+                      <input type="text" name="email" class="form-control d-inline-flex" style="width: 200px;" value="{{  userinfo.user.email }}">
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Password</h6>
+                      <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+    Change Password
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex justify-content-between align-items-center px-3 my-3">
+                <h6>Old Password: </h6>
+                <input name="password" type="password" class="form-control d-inline-flex" style="width: 200px;" type="password">
+            </div>
+            <div class="d-flex justify-content-between align-items-center px-3 my-3">
+                <h6>New Password: </h6>
+                <input name="password1" type="password" class="form-control d-inline-flex" style="width: 200px;" type="password">
+            </div>
+            <div class="d-flex justify-content-between align-items-center px-3 my-3">
+                <h6>Password Repeat: </h6>
+                <input name="password2" type="password" class="form-control d-inline-flex" style="width: 200px;" type="password">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+                    </div>
+                  </div>
+                  <h6>Projects</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Adress</h6>
+                      <input name="address" type="text" class="form-control d-inline-flex" style="width: 200px;" value="{{  userinfo.address }}">
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Phone</h6>
+                      <input name="tel" type="text" class="form-control d-inline-flex" style="width: 200px;" value="{{  userinfo.tel}}">
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-start">
+                    <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
+                    <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
+                    <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock body %}
+
+
+
+
+
+{% block js %}
+    <script>
+
+        changeCard=true
+
+        var changeProfil=()=>{
+            if (changeCard){
+
+                document.getElementById("card1").style.display="none";
+                document.getElementById("card2").style.display="block";
+            }
+            else{
+                document.getElementById("card1").style.display="block";
+                document.getElementById("card2").style.display="none";
+            }
+            changeCard= !changeCard
+        }
+    </script>
+{% endblock js %}

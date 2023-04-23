@@ -1,0 +1,56 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container">
+  
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarButtonsExample"
+        aria-controls="navbarButtonsExample"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        </ul>
+        <!-- Left links -->
+  
+        
+
+        <div class="d-flex align-items-center">
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'profileUser' %}" type="button" class="btn btn-link px-3 me-2">
+            {{ request.user }}
+          </a>
+          <a href="{% url 'logoutUser' %}" type="button" class="btn btn-primary me-3">
+            Logout
+          </a>
+          {% else %}
+            
+          <a href="{% url 'loginUser' %}" type="button" class="btn btn-link px-3 me-2">
+            Login
+          </a>
+          <a href="{% url 'registerUser' %}" type="button" class="btn btn-primary me-3">
+            Register
+          </a>
+          {% endif %}
+            
+
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
